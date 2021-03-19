@@ -1,0 +1,28 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.3] - 2020-08-13
+### Changed
+- Refactored the code to be more readable
+- Better modularity; API calls are now exclusively being made in designated functions
+- Renamed helper_struct to cctray_data_struct, chose more speaking names upon modification
+
+### Added
+- A section about the CCTray format in the README
+
+
+## [0.0.2] - 2020-08-12
+### Changed
+- All sensitive data is now passed via Environment variables
+
+### Removed
+- The venv/ directory as well as the cctray_example.xml file
+
+## [0.0.1] - 2020-08-04
+### Added
+- Basic functionality; the script traverses through an organisation and gets the workflow jobs for all the repos
+- The Github Token is being passed as an environment variable instead of being hardcoded
+- For the most part, Github semantics are being matched to CCTray semantics
