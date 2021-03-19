@@ -1,16 +1,19 @@
 import requests
 import json
-import os
 import sys
+import configparser
 from xml.etree.ElementTree import Element, SubElement, tostring
 
-GITHUB_PERSONAL_TOKEN = os.environ['GITHUB_TOKEN']
-TEAM = os.environ['GITHUB_TEAM']
-ORGANISATION = os.environ['GITHUB_ORGANISATION']
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+GITHUB_TOKEN = config['DEFAULT']['GITHUB_TOKEN']
+GITHUB_TEAM = config['DEFAULT']['GITHUB_TEAM']
+GITHUB_ORGANISATION = config['DEFAULT']['GITHUB_ORGANISATION']
 API_BASE = "https://api.github.com"
 
 authorization_header = {
-    'Authorization': 'Bearer ' + GITHUB_PERSONAL_TOKEN
+    'Authorization': 'Bearer ' + GITHUB_TOKEN
 }
 
 cctray_attributes = {
@@ -58,7 +61,7 @@ def get_json_response_from_endpoint(endpoint):
 
 # Extracts repository names from a JSON array of respositories
 def get_repo_names():
-    response_json = get_json_response_from_endpoint(f"/orgs/{ORGANISATION}/teams/{TEAM}/repos")
+    response_json = get_json_response_from_endpoint(f"/orgs/{GITHUB_ORGANISATION}/teams/{GITHUB_TEAM}/repos")
     repo_name_list = []
     for repo in response_json:
         repo_name_list.append(repo['name'])
@@ -78,7 +81,7 @@ def initialize_cctray_data_struct_with_names(repository_names):
 
 # Gets all workflows of a single repository
 def get_repo_workflows(repo_name):
-    response = get_json_response_from_endpoint(f"/repos/{ORGANISATION}/{repo_name}/actions/workflows")
+    response = get_json_response_from_endpoint(f"/repos/{GITHUB_ORGANISATION}/{repo_name}/actions/workflows")
     return response['workflows']
 
 
@@ -106,7 +109,7 @@ def append_most_recent_workflow_runs_to_cctray_data_struct(cctray_data_struct):
 
 def get_most_recent_workflow_run_id(repo_entry, workflow):
     response = get_json_response_from_endpoint(
-        f"/repos/{ORGANISATION}/{repo_entry['name']}/actions/workflows/{workflow['workflow_id']}/runs?page=1&per_page=1")
+        f"/repos/{GITHUB_ORGANISATION}/{repo_entry['name']}/actions/workflows/{workflow['workflow_id']}/runs?page=1&per_page=1")
     return response['workflow_runs'][0]['id']
 
 
@@ -128,7 +131,7 @@ def get_relevant_job_data_associated_with_run(run_id, repo_name):
 
 
 def get_jobs_associated_with_run(repo_name, run_id):
-    response = get_json_response_from_endpoint(f"/repos/{ORGANISATION}/{repo_name}/actions/runs/{run_id}/jobs")
+    response = get_json_response_from_endpoint(f"/repos/{GITHUB_ORGANISATION}/{repo_name}/actions/runs/{run_id}/jobs")
     return response['jobs']
 
 
