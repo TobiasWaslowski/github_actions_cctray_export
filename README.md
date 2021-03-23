@@ -52,7 +52,7 @@ For now, however, you'll have to manually clone and run the script for yourself.
 
 You'll need Python and possibly Pip on your machine. 
 
-### Installing and Prerequisites
+### Installing and Configuration
 
 In order to not bloat your Python installation, it is recommended to run this
 project in a virtual environment. To do so, run
