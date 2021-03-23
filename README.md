@@ -52,31 +52,23 @@ For now, however, you'll have to manually clone and run the script for yourself.
 
 You'll need Python and possibly Pip on your machine. 
 
-### Installing
+### Installing and Prerequisites
 
-After you've cloned the repository, you'll need to set the GITHUB_TOKEN environment variable.
-Check the next step on how to generate that token.
+In order to not bloat your Python installation, it is recommended to run this
+project in a virtual environment. To do so, run
 
-You can either set the token in your .bash_profile, .bashrc or something similar, adding
+```
+python -m venv venv && source bin/activate/venv
+```
 
-``
-    export GITHUB_TOKEN=${YOUR_GITHUB_TOKEN}
-``
+After that, install the dependencies using
 
-and then running ``source .bashrc`` or whatever your equivalent of that file might be.
+```
+python -m pip install -r requirements.txt
+```
 
-Alternatively, you can just set that variable in the command line or a local config file 
-of yours. Perspectivically, I'm gonna implement a more elegant solution for that issue, 
-but this works for now.
-
-### Using a Github Access Token for Maven
-
-This project relies on certain artifacts that are hosted in the Github Package Registry.
-Because they're hosted privately by the OttoPaymenthub organization, you're going to need Authorization to access them.
-
-Go to Github > Settings > Developer Settings (at the very bottom) > Personal Access Tokens.
-Click "Generate new token" and enable the following scopes:
-
-    repo, user, workflow
-
-Now copy the token and enable SSO for the OttoPaymenthub organization.
+After that, edit the config.ini file to input your Github Organisation and Team
+as well as your Github Access Token, which you can generate [here](https://github.com/settings/tokens).
+Right now, this project is optimised for being used in an enterprise context where
+you have a Github Organisation with several teams. If you have a different usecase,
+please create an issue and I'll try creating a solution for that :)
